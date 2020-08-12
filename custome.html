@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>Chatbot Demo</title>
+<meta name="viewport" content="width-device-width, initial-scale=1">
+<style>
+  df-messenger {
+   --df-messenger-bot-message: white;
+   --df-messenger-button-titlebar-color: #024442;
+   --df-messenger-chat-background-color: #fafafa;
+   --df-messenger-minimized-chat-close-icon-color: #024442;
+   --df-messenger-font-color: rgb(0, 0, 0);
+   --df-messenger-send-icon: #024442;
+   --df-messenger-user-message: #479b3d;
+   --df-messenger-chat-width: 500px;
+  }
+  div.chat-wrapper {
+    width: 500px !important;
+  }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+<body>
+<!-- 
+Note: the only thing that should need to be changed for integration purposes below is that you will need to host the ptla avatar file somewhere and change the URL. It will work like the below for now, but I can't guarantee I won't ever delete the ptlachatbot s3 bucket I used for development of the bot. The agent-id will also change once we export/import the bot from my account to PTLA's account. Otherwise, the style in the style block above needs to be added to the style for the site, and the script and df-messenger tags need to be added to the code for the site-wide footer. -- Alex Clark
+-->
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  id='messenger'
+  chat-icon="https://ptlachatbot.s3.amazonaws.com/ptla+avatar+36px.png"
+  intent="WELCOME"
+  chat-title="Moose"
+  agent-id="5f59d9c4-2701-467f-b4ce-6e999f2b7607"
+  language-code="en"
+></df-messenger>
+<script>
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+};
+
+window.addEventListener('dfMessengerLoaded', function(event) {
+  if (isMobileDevice() === false) {
+    const target = document.querySelector("body > df-messenger").shadowRoot.querySelector("div > df-messenger-chat").shadowRoot
+    const newStyle = document.createElement('style')
+    newStyle.innerHTML = 'div.chat-wrapper{width: 300px !important;}';
+    target.appendChild(newStyle);
+  }
+});
+
+</script>
+</body>
+</html>
